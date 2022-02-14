@@ -1,0 +1,64 @@
+msql
+
+Use Silva;
+
+CREATE TABLE parts_maintenance (
+	VehicleID VARCHAR(20),
+	state VARCHAR(2),
+	repair VARCHAR(50),
+	reason VARCHAR(50),
+	year INT,
+	make VARCHAR(20),
+	body_type VARCHAR(50)
+);
+
+LOAD DATA INFILE '/home/codio/workspace/FleetMaintenanceRecords.csv'
+INTO TABLE parts_maintenance
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n'
+IGNORE 1 ROWS;
+
+SELECT DISTINCT (repair) FROM parts_maintenance; 
+
+SELECT DISTINCT (reason) FROM parts_maintenance; 
+
+SELECT * FROM parts_maintenance LIMIT 10;
+
+SELECT repair AS PART_REPAIR, COUNT(*) AS NUMBER_OF_REPAIRS
+FROM parts_maintenance
+GROUP BY PART_REPAIR
+ORDER BY NUMBER_OF_REPAIRS DESC;
+
+SELECT "SOUTHWEST" AS REGION, COUNT(*) AS NUMBER_OF_REPAIRS
+FROM parts_maintenance 
+WHERE UPPER (state) IN ('AZ','NM','TX','OK')
+UNION
+SELECT "SOUTHEAST" AS REGION, COUNT(*) AS NUMBER_OF_REPAIRS
+FROM parts_maintenance
+WHERE UPPER (state) IN ('AR','LA','MS','AL','GA','FL','KY','TN','SC','NC','VA','WV','DE','MD')
+UNION
+SELECT "NORTHEAST" AS REGION, COUNT(*) AS NUMBER_OF_REPAIRS
+FROM parts_maintenance
+WHERE UPPER (state) IN ('PA','NJ','NY','CT','RI','MA','VT','ME','NH')
+UNION
+SELECT "MIDWEST" AS REGION, COUNT(*) AS NUMBER_OF_REPAIRS
+FROM parts_maintenance
+WHERE UPPER (state) IN ('ND','SD','KS','NE','MN','WI','IA','MO','MI','IN','IL','OH')
+UNION
+SELECT "WEST" AS REGION, COUNT(*) AS NUMBER_OF_REPAIRS
+FROM parts_maintenance
+WHERE UPPER (state) IN ('WA','ID','MT','OR','WY','CO','UT','NV','CA')
+ORDER BY NUMBER_OF_REPAIRS DESC;
+
+SELECT repair AS PART_REPAIR, COUNT(*) AS NUMBER_OF_REPAIRS
+FROM parts_maintenance
+WHERE UPPER (reason) IN ('CORROSION','RUST')
+GROUP BY PART_REPAIR
+ORDER BY NUMBER_OF_REPAIRS DESC;
+
+SELECT repair AS PART_REPAIR, COUNT(*) AS NUMBER_OF_REPAIRS
+FROM parts_maintenance
+WHERE UPPER (reason) LIKE '%FLAT%' OR UPPER (reason) LIKE '%CRACK%'
+GROUP BY PART_REPAIR
+ORDER BY NUMBER_OF_REPAIRS DESC;

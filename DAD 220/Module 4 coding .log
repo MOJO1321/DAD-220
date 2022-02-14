@@ -1,0 +1,50 @@
+mysql < mysqlsampledatabase.sql
+
+mysql
+
+USE classicmodels;
+
+SHOW TABLES;
+
+SELECT firstName, lastName, jobTitle, offices.city FROM employees INNER JOIN offices ON employees.officeCode = offices.officeCode WHERE state = 'CA';
+
+SELECT firstName, lastName, jobTitle, offices.city FROM employees INNER JOIN offices ON employees.officeCode = offices.officeCode WHERE state = 'NY';
+
+SELECT orders.orderNumber, productCode, quantityOrdered, priceEach, orderlineNumber
+	FROM orders INNER JOIN orderdetails ON orders.orderNumber = orderdetails.orderNumber
+	WHERE orders.orderNumber IN (10330, 10338, 10194)
+	ORDER by orders.orderNumber;
+	
+DESC payments;
+
+SELECT * FROM payments
+	WHERE customerNumber = 103;
+	
+DELETE FROM payments
+	WHERE customerNumber = 103;
+	
+SELECT * FROM payments
+	WHERE customerNumber = 103;
+	
+SELECT CONCAT(employees.firstName, " ", employees.lastName) AS SALE_REP, customers.customerNumber AS CUSTOMER
+	FROM employees INNER JOIN customers ON employees.employeeNumber = customers.salesRepEmployeeNumber
+	WHERE employees.employeeNumber = 1504;
+	
+SELECT customers.customerName AS CUSTOMER, CONCAT(employees.firstName, " ", employees.lastName) As SALE_REP
+	FROM employees INNER JOIN customers ON employees.employeeNumber = customers.salesRepEmployeeNumber
+	WHERE UPPER(customers.state) = 'MA';
+	
+SHOW databases;
+
+USE classicmodels;
+
+SHOW TABLES;
+
+DESC customers;
+	
+SELECT * FROM customers;
+	
+INSERT INTO customers VALUES (1321, 'Deadpool Corp', 'Silva', 'Ryan', '909-586-0000', '123 Chimichanga Ln', '123 Chimichangas Ln', 'Los Angeles',
+	'CA', 90001, 'USA', 1612, 1000000.00);
+	
+SELECT * FROM customers;

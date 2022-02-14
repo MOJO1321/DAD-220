@@ -1,0 +1,88 @@
+chmod +x change_perm.sh
+
+./change_perm.sh
+
+mysql
+
+USE Silva;
+
+SELECT * FROM Employee;
+
+ALTER TABLE Branches
+	RENAME TO Department;
+
+INSERT INTO Department VALUE
+	(1, 'Accounting'),
+	(2, 'Human Resources'),
+	(3, 'Information Systems'),
+	(4, 'Marketing');
+	
+SELECT * FROM Department;
+
+SELECT Employee.First_Name, Employee.Last_Name, Department.Departent_Name
+	FROM Employee INNER JOIN Department ON Employee.Department_ID =
+	Department.Department_ID
+	WHERE Employee.Department_ID = 1;
+	
+SELECT Employee.First_Name, Employee.Last_Name, Department.Departent_Name
+	FROM Employee INNER JOIN Department ON Employee.Department_ID =
+	Department.Department_ID
+	WHERE Employee.Department_ID = 2;
+
+SELECT Employee.First_Name, Employee.Last_Name, Department.Departent_Name
+	FROM Employee INNER JOIN Department ON Employee.Department_ID =
+	Department.Department_ID
+	WHERE Employee.Department_ID = 3;
+	
+SELECT Employee.First_Name, Employee.Last_Name, Department.Departent_Name
+	FROM Employee INNER JOIN Department ON Employee.Department_ID =
+	Department.Department_ID
+	WHERE Employee.Department_ID = 4;
+	
+INSERT INTO Employee VALUES (107, 'Kimberly', 'Silva', 2, 'NULL', 'Full-Time', 55000),
+	(108, 'Jocy', 'Brito', 4, 'Non-Exempt', 'Full-Time', 90000),
+	(109, 'Drew', 'Silva', 3, 'Non-Exempt','Full-Time', 40000),
+	(110, 'Ryan', 'Silva', 2, 'NULL', 'Full-Time', 40000),
+	(111, 'Robert', 'Silva', 1, 'Non-Exempt', 'Full-Time', 90000),
+	(112, 'Matthew', 'Ryan', 1, 'Non-Exempt','Full-Time', 75000),
+	(113, 'John', 'Johnson', 2, 'NULL', 'Full-Time', 42000),
+	(114, 'Angel', 'Jones', 2, 'Non-Exempt', 'Full-Time', 32000),
+	(115, 'Heaven', 'Esmond', 2, 'Non-Exempt','Full-Time', 53000),
+	(116, 'Heather', 'Johnson', 3, 'NULL', 'Full-Time', 40000);
+	
+SELECT Employee.First_Name, Employee.Last_Name, Department.Departent_Name
+	FROM Employee INNER JOIN Department ON Employee.Department_ID =
+	Department.Department_ID
+	WHERE Employee.Department_ID = 1;
+	
+SELECT Employee.First_Name, Employee.Last_Name, Department.Departent_Name
+	FROM Employee INNER JOIN Department ON Employee.Department_ID =
+	Department.Department_ID
+	WHERE Employee.Department_ID = 2;
+
+SELECT Employee.First_Name, Employee.Last_Name, Department.Departent_Name
+	FROM Employee INNER JOIN Department ON Employee.Department_ID =
+	Department.Department_ID
+	WHERE Employee.Department_ID = 3;
+	
+SELECT Employee.First_Name, Employee.Last_Name, Department.Departent_Name
+	FROM Employee INNER JOIN Department ON Employee.Department_ID =
+	Department.Department_ID
+	WHERE Employee.Department_ID = 4;
+	
+SELECT Department.Departent_Name, COUNT(*) AS NUMBER_OF_EMPLOYEES
+	FROM Employee INNER JOIN Department on Employee.Department_ID = Department.Department_ID
+	GROUP BY Department.Departent_Name;
+	
+SELECT First_Name, Last_Name, Department.Departent_Name from Employee inner join Department on
+	Employee.Department_ID = Department.Department_ID where Employee.Department_ID = 3 OR Employee.Department_ID = 2
+	into outfile'/home/codio/workspace/HRandIS-Employees.csv' FIELDS TERMINATED BY',';
+	
+quit
+
+pwd
+
+ls 
+
+cat HRandIS-Employees.csv
+

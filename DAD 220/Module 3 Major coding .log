@@ -1,0 +1,54 @@
+CREATE DATABASE QuantigrationRMA;
+
+SHOW DATABASES;
+
+USE QuantigrationRMA;
+
+CREATE TABLE Customers (
+	CustomerID INT,
+	FirstName VARCHAR(25),
+	LastName VARCHAR(25),
+	Steet VARCHAR(50),
+	City VARCHAR(50),
+	State VARCHAR(25),
+	ZipCode INT,
+	Telephone VARCHAR(15),
+	PRIMARY KEY(CustomerID)
+);
+
+CREATE TABLE Orders (
+	OrderID INT,
+	CustomerID INT,
+	SKU VARCHAR(20),
+	Description VARCHAR(50),
+	PRIMARY KEY(OrderID)
+);
+
+CREATE TABLE RMA (
+	RMAID INT,
+	OrderID INT,
+	Step VARCHAR(50),
+	Status VARCHAR(15),
+	Reason VARCHAR(15),
+	PRIMARY KEY(RMAID)
+);
+
+ALTER TABLE Orders
+	ADD FOREIGN KEY(CustomerID) REFERENCES Customers(CustomerID);
+	
+ALTER TABLE RMA
+	ADD FOREIGN KEY(OrderID) REFERENCES Orders(OrderID);
+	
+DESC Customers;
+
+DESC Orders;
+
+DESC RMA;
+
+CREATE VIEW Collaborators AS
+	SELECT CustomerID AS CollaboratorsID, FirstName, LastName, Steet, City, State, ZipCode, Telephone
+	FROM Customers;
+	
+DESC Collaborators;
+	
+

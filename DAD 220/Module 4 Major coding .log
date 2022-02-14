@@ -1,0 +1,28 @@
+ls -l
+
+mysql
+
+USE QuantigrationRMA;
+
+LOAD DATA INFILE '/home/codio/workspace/customers.csv'
+INTO TABLE Customers;
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY 'r\n';
+
+LOAD DATA INFILE '/home/codio/workspace/orders.csv'
+INTO TABLE Orders;
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY 'r\n';
+
+LOAD DATA INFILE '/home/codio/workspace/rma.csv'
+INTO TABLE RMA;
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY 'r\n';
+
+SELECT COUNT(*)
+FROM Customers INNER JOIN Orders on Customers.CustomerID =
+Orders.CustomerID
+WHERE (Customers.City) = "Framingham" AND (Customers.State) = 'Massachusetts';

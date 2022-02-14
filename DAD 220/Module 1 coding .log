@@ -1,0 +1,25 @@
+#Inputted command Created a database titled Silva.
+CREATE DATABASE Silva;
+
+#Inputted command to show me the database that I have created.
+SHOW DATABASES;
+
+#Inputted command to use the database. The command showed the database with 4 rows. The rows were 
+USE Silva;
+
+#Created a table titled tb2 with user_id in the field column and VARCHAR(50) in the type column
+CREATE TABLE tb2 (user_id VARCHAR(50)
+);
+
+#Shows the table that I have created.
+SHOW TABLES;
+
+#Describes the information in tb2 table.
+DESCRIBE tb2;
+
+#Adds newfield VarChar(25) to the tb2 table. newfield added to the field column and VARCHAR(25) in the type column
+ALTER TABLE tb2 ADD newfield VARCHAR(25);
+
+#Describes the information in tb2 table with the just added information to the tb2.
+DESCRIBE tb2;
+

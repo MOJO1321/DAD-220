@@ -1,0 +1,125 @@
+mysql
+
+# Use the CREATE DATABASE command to create a database and name it QuantigrationUpdates.
+CREATE DATABASE QuantigrationUpdates;
+
+# USE the SHOW DATABASES command to list all of my created database to make sure the QuantigrationUpdates database was successfully created.
+SHOW DATABASES;
+
+# Use the USE command with QuantigrationUpdates to use the QuantigrationUpdates database.
+USE QuantigrationUpdates;
+
+# Use the CREATE TABLE command to create a table and name it Customer. Use the RMA diagram to find and input
+# the primary key, foreign key, attributes and data into the Customer table.
+CREATE TABLE Customer (
+	CustomerID INT,
+	FirstName VARCHAR(25),
+	LastName VARCHAR(25),
+	Steet VARCHAR(50),
+	City VARCHAR(50),
+	State VARCHAR(25),
+	ZipCode INT,
+	Telephone VARCHAR(15),
+	PRIMARY KEY(CustomerID)
+);
+
+# Use the CREATE TABLE command to create a table and name it Orders. Use the RMA diagram to find and input
+# the primary key, foreign key, attributes and data into the Orders table.
+CREATE TABLE Orders (
+	OrderID INT,
+	CustomerID INT,
+	SKU VARCHAR(20),
+	Description VARCHAR(50),
+	PRIMARY KEY(OrderID)
+);
+
+# Use the CREATE TABLE command to create a table and name it RMA. Use the RMA diagram to find and input
+# the primary key, foreign key, attributes and data into the RMA table.
+CREATE TABLE RMA (
+	RMAID INT,
+	OrderID INT,
+	Status VARCHAR(50),
+	Step VARCHAR(15),
+	Reason VARCHAR(25),
+	PRIMARY KEY(RMAID)
+);
+
+SHOW TABLES;
+
+# Use DESC Command with Customer to describe and show the customer table's information
+DESC Customer;
+
+# Use DESC Command with Orders to describe and show the orders table's information
+DESC Orders;
+
+# Use DESC Command with RMA to describe and show the RMA table's information
+DESC RMA;
+
+# Use ALTER TABLE command with Customer and then use RENAME command with Collaborator to 
+# rename the Customer table to Collaborator table
+ALTER TABLE Customer RENAME Collaborator;
+
+# Use SHOW command with TABLES to make sure the Customer table was renamed to Collaborator
+SHOW TABLES;
+
+# Use DESC command with Collaborator to make sure the Collaborator table has the same 
+# information that the Customer table had in it
+DESC Collaborator;
+
+LOAD DATA INFILE '/home/codio/workspace/customers.csv'
+INTO TABLE Collaborator
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n';
+
+LOAD DATA INFILE '/home/codio/workspace/orders.csv'
+INTO TABLE Orders
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n';
+
+LOAD DATA INFILE '/home/codio/workspace/rma.csv'
+INTO TABLE RMA
+FIELDS TERMINATED BY ','
+ENCLOSED BY '"'
+LINES TERMINATED BY '\r\n';
+
+SELECT COUNT(*)
+FROM Collaborator INNER JOIN Orders on Collaborator.CustomerID =
+Orders.CustomerID
+WHERE (Collaborator.City) = "Framingham" AND (Collaborator.State) = 'Massachusetts';
+
+SELECT COUNT(*)
+FROM Collaborator
+WHERE (Collaborator.State) = 'Massachusetts';
+
+INSERT INTO Collaborator VALUES (100004, 'Luke', 'Skywalker', '15 Maiden Lane', 'New York', 'NY', 10222, '212-555-1234'),
+	(100005, 'Winston', 'Smith', '123 Sycamore Street', 'Greensboro', 'NC', 27401, '919-555-6623'),
+	(100006, 'MaryAnne', 'Jenkins', '1 Coconut Way', 'Jupiter','FL', 33458, '321-555-8907'),
+	(100007, 'Janet', 'Williams', '55 Redondo Beach Blvd', 'Torrence', 'CA', 90501, '310-555-5678');
+	
+INSERT INTO Orders VALUES (1204305, 100004, 'ADV-24-10C', 'Advanced Switch 10GigE Copper 24 port'),
+	(1204306, 100005, 'ADV-48-10F', 'Advanced Switch 10 GigE Copper/Fiber 44 port copper 4 port fiber'),
+	(1204307, 100006, 'ENT-24-10F', 'Enterprise Switch 10GigE SFP+ 24 Port'),
+	(1204308, 100007, 'ENT-48-10F', 'Enterprise Switch 10GigE SFP+ 48 port');
+
+SELECT COUNT(*)
+FROM Collaborator 
+WHERE (Collaborator.City) = "Woonsocket" AND (Collaborator.State) = 'Rhode Island';
+
+SELECT Status, Step
+FROM RMA
+WHERE OrderID = 5175;
+
+UPDATE RMA
+SET Status = "Complete", Step = "Credit Customer Account"
+WHERE OrderID = 5175;
+
+DELETE FROM RMA
+WHERE UPPER(Reason) = "Rejected";
+
+SELECT *
+FROM Orders
+INTO OUTFILE '/home/codio/workspace/qrmaupdate-orders-data.csv'
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\r\n';
